@@ -6,7 +6,7 @@ import com.songmy.latte.net.callback.IError;
 import com.songmy.latte.net.callback.IFailure;
 import com.songmy.latte.net.callback.IRequest;
 import com.songmy.latte.net.callback.ISuccess;
-import com.songmy.latte.ui.LoaderStyle;
+import com.songmy.latte.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.Map;

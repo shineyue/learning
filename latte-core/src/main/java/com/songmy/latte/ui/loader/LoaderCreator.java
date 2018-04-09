@@ -1,4 +1,4 @@
-package com.songmy.latte.ui;
+package com.songmy.latte.ui.loader;
 
 import android.content.Context;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package com.songmy.latte.ui;
+package com.songmy.latte.ui.loader;
 
 /**
  * Created by songmy on 2018/3/22.

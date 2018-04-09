@@ -1,4 +1,4 @@
-package com.songmy.latte.ui;
+package com.songmy.latte.ui.loader;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatDialog;
@@ -7,6 +7,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.songmy.latte.R;
+import com.songmy.latte.ui.loader.LoaderCreator;
+import com.songmy.latte.ui.loader.LoaderStyle;
 import com.songmy.latte.util.DimenUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
