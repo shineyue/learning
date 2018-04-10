@@ -8,6 +8,8 @@ import android.view.View;
 import com.songmy.latte.delegates.LatteDelegate;
 import com.songmy.latte.ec.R;
 import com.songmy.latte.ec.R2;
+import com.songmy.latte.ui.launcher.ScrollLauncherTag;
+import com.songmy.latte.util.LattePreference;
 import com.songmy.latte.util.timer.BaseTimerTask;
 import com.songmy.latte.util.timer.ITimerListener;
 
@@ -27,7 +29,11 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {
-
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+            checkIsShowScroll();
+        }
     }
 
     private void initTimer() {
@@ -45,6 +51,14 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         initTimer();
     }
+    
+    private void checkIsShowScroll(){
+        if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
+            start(new LauncherScrollDelegate(), SINGLETASK);
+        } else {
+            // TODO: 2018/4/10 是否登录
+        }
+    }
 
     @Override
     public void onTimer() {
@@ -59,6 +73,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
                     if (mTimer != null) {
                         mTimer.cancel();
                         mTimer = null;
+                        checkIsShowScroll();
                     }
                 }
             }
