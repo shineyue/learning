@@ -1,5 +1,6 @@
 package com.songmy.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -14,12 +15,14 @@ import com.songmy.latte.ec.R;
 import com.songmy.latte.ec.R2;
 import com.songmy.latte.net.RestClient;
 import com.songmy.latte.net.callback.ISuccess;
+import com.songmy.latte.util.log.LatteLogger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * Created by songmy on 2018/4/11.
+ * 注册页面
  */
 
 public class SignUpDelegate extends LatteDelegate{
@@ -34,21 +37,32 @@ public class SignUpDelegate extends LatteDelegate{
     TextInputEditText mPassword = null;
     @BindView(R2.id.edit_sign_up_re_password)
     TextInputEditText mRePassword = null;
+
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
-            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
-//            RestClient.builder()
-//                    .url("sign_up")
-//                    .params("", "")
-//                    .success(new ISuccess() {
-//                        @Override
-//                        public void onSuccess(String response) {
-//
-//                        }
-//                    })
-//                    .build()
-//                    .post();
+            RestClient.builder()
+                    .url("http://www.wanandroid.com/tools/mockapi/11736/userprofile")
+                    .loader(getContext())
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
+                            LatteLogger.json("userprofile", response);
+                            SignHandler.OnSignUp(response, mISignListener);
+                        }
+                    })
+                    .build().get();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.songmy.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import com.songmy.latte.delegates.LatteDelegate;
 import com.songmy.latte.ec.R;
 import com.songmy.latte.ec.R2;
+import com.songmy.latte.net.RestClient;
+import com.songmy.latte.net.callback.ISuccess;
+import com.songmy.latte.util.log.LatteLogger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,6 +31,16 @@ public class SignInDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_in_password)
     TextInputEditText mPassword = null;
 
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
     @OnClick(R2.id.icon_sign_in_wechat)
     void onClickSignInWechat() {
         Toast.makeText(getContext(), "微信登录", Toast.LENGTH_SHORT).show();
@@ -35,13 +49,29 @@ public class SignInDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
         if (checkForm()) {
-            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
+            RestClient.builder()
+                    .url("http://www.wanandroid.com/tools/mockapi/11736/userprofile")
+                    .loader(getContext())
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
+                            LatteLogger.json("userprofile", response);
+                            SignHandler.OnSignIn(response, mISignListener);
+                        }
+                    })
+                    .build().get();
         }
     }
 
     @OnClick(R2.id.tv_link_sign_up)
     void onClickLink(){
         start(new SignUpDelegate());
+    }
+
+    @OnClick(R2.id.icon_sign_in_wechat)
+    void onClickWeChat(){
+
     }
 
     private boolean checkForm() {

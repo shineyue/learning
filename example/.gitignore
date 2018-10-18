@@ -1,2 +1,11 @@
 /build
-.idea/
+.idea
+.build
+gradle
+build
+gradlew
+idea
+
+*.iml
+*.properties
+*.bat

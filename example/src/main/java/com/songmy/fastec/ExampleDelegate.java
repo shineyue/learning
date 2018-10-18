@@ -30,7 +30,7 @@ public class ExampleDelegate extends LatteDelegate{
 
     private void testRestClient(){
         RestClient.builder()
-                .url("http://127.0.0.1/index")
+                .url("http://www.wanandroid.com/tools/mockapi/11736/userprofile")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override
