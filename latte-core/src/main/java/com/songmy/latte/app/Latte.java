@@ -12,7 +12,7 @@ public final class Latte {
 
     //对象的应用转入到配置项
     public static Configurator init(Context context) {
-        getConfigurations().put(ConfigKeys.APPLICATION_CONTEXT.name(), context.getApplicationContext());
+        getConfigurator().getLatteConfigs().put(ConfigKeys.APPLICATION_CONTEXT.name(), context.getApplicationContext());
         return Configurator.getInstance();
     }
 
@@ -20,10 +20,13 @@ public final class Latte {
         return Configurator.getInstance().getLatteConfigs();
     }
 
-//    public static T <?> getConfiguration(String configKey){
-//
-//
-//    }
+    public static Configurator getConfigurator() {
+        return Configurator.getInstance();
+    }
+
+    public static <T> T  getConfiguration(Object configKey){
+        return getConfigurator().getConfiguration(configKey);
+    }
 
     public static Context getApplicationContext(){
         return (Context) getConfigurations().get(ConfigKeys.APPLICATION_CONTEXT.name());
