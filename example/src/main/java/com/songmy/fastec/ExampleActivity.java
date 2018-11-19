@@ -11,6 +11,7 @@ import com.songmy.latte.app.Latte;
 import com.songmy.latte.delegates.LatteDelegate;
 import com.songmy.latte.ec.launcher.LauncherDelegate;
 import com.songmy.latte.ec.launcher.LauncherScrollDelegate;
+import com.songmy.latte.ec.main.EcBottomDelegate;
 import com.songmy.latte.ec.sign.ISignListener;
 import com.songmy.latte.ec.sign.SignInDelegate;
 import com.songmy.latte.ec.sign.SignUpDelegate;
@@ -36,24 +37,21 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, ILa
 
     @Override
     public void onSignInSuccess() {
-        Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+        startWithPop(new EcBottomDelegate());
     }
 
     @Override
     public void onSignUpSuccess() {
-        Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
-
+        startWithPop(new SignInDelegate());
     }
 
     @Override
     public void onLauncherFinish(OnLauncherFinishTag tag) {
         switch (tag) {
             case SIGNED:
-                Toast.makeText(this, "用户登录了", Toast.LENGTH_SHORT).show();
-
+                startWithPop(new EcBottomDelegate());
                 break;
             case NOT_SIGNED:
-                Toast.makeText(this, "用户没登录", Toast.LENGTH_SHORT).show();
                 startWithPop(new SignInDelegate());
                 break;
             default:
